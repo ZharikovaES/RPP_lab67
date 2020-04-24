@@ -1,4 +1,4 @@
-package ru.mirea.lab6;
+package ru.mirea.lab67;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -45,6 +45,18 @@ public class Item implements Parcelable {
 
     public void setQuantity(int Quantity) {
         this.Quantity = Quantity;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public void setPrice(float price) {
+        Price = price;
     }
 
     protected Item(Parcel in) {

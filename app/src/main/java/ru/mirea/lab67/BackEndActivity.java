@@ -1,9 +1,11 @@
-package ru.mirea.lab6;
+package ru.mirea.lab67;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
@@ -39,6 +41,7 @@ public class BackEndActivity extends AppCompatActivity implements AdapterRecycle
     final String LOG_TAG = "myLogs";
     static final int CM_DELETE_ID = 1;
     static final int CM_CHANGE_ID = 2;
+    public static Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +91,34 @@ public class BackEndActivity extends AppCompatActivity implements AdapterRecycle
         }
         c.close();
         database.close();
+
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                Bundle bundle = msg.getData();
+                list = bundle.getParcelableArrayList("listOfProducts");
+                if (list.size() > 0) {
+                    int p = bundle.getInt("position");
+                    Toast toast = Toast.makeText(BackEndActivity.this, "Товар \"" + list.get(p).getName()
+                            + "\" изменен", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP,
+                            0,
+                            200);
+                    toast.show();
+                    textView.setVisibility(View.GONE);
+                    listProducts.setVisibility(View.VISIBLE);
+                }
+                if (list.size() == 0) {
+                    Toast toast = Toast.makeText(BackEndActivity.this, "Товаров нет", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP,
+                            0,
+                            200);
+                    toast.show();
+                    listProducts.setVisibility(View.GONE);
+                    textView.setVisibility(View.VISIBLE);
+                }
+            }
+        };
     }
     public void add(View v) {
         Intent i = new Intent(BackEndActivity.this, BackEndChangeActivity.class);
@@ -123,9 +154,10 @@ public class BackEndActivity extends AppCompatActivity implements AdapterRecycle
             return true;
         }
         if (item.getItemId() == CM_CHANGE_ID) {
-            Intent i = new Intent(this, BackEndChangeActivity.class);
+            Intent i = new Intent(BackEndActivity.this, BackEndChangeActivity.class);
             i.putExtra("change_id", 1);
             i.putExtra ("item_front", list.get(acmi.position));
+            i.putParcelableArrayListExtra("listOfProducts", list);
             i.putExtra("position", acmi.position);
             startActivity(i);
             finish();

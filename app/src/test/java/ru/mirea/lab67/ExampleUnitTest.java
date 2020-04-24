@@ -1,4 +1,4 @@
-package ru.mirea.lab6;
+package ru.mirea.lab67;
 
 import org.junit.Test;
 

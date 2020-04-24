@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">lab6</string>
+    <string name="app_name">lab67</string>
     <string name="vp_quantity">Количество товара:</string>
     <string name="vp_price">Цена за единицу товара:</string>
     <string name="vp_btn_buy">Купить</string>

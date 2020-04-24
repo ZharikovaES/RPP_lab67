@@ -1,4 +1,4 @@
-package ru.mirea.lab6;
+package ru.mirea.lab67;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -35,7 +35,8 @@ public class SplashScreen extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
             database = dbHelper.getWritableDatabase();
-            Cursor c = database.query(DBHelper.TABLE_PRODUCTS, null, null, null, null, null, null);
+            String query = "SELECT * FROM " + DBHelper.TABLE_PRODUCTS + " WHERE " + DBHelper.KEY_QUANTITY + "<>0;";
+            Cursor c = database.rawQuery(query, null);
             if (c.moveToFirst()) {
                 int idColIndex = c.getColumnIndex(DBHelper.KEY_ID);
                 int nameColIndex = c.getColumnIndex(DBHelper.KEY_NAME);
